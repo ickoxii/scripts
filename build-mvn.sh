@@ -5,8 +5,11 @@ artifact_id="Maven-Project"
 version="0.0.1-SNAPSHOT"
 main_class="Main.java"
 
-template_pom="~/skeleton-files/maven/template-pom.xml"
-template_make="~/skeleton-files/maven/Makefile"
+# template_pom="~/skeleton-files/maven/template-pom.xml"
+# template_make="~/skeleton-files/maven/Makefile"
+
+template_pom="/Users/ickoxii/skeleton-files/maven/template-pom.xml"
+template_make="/Users/ickoxii/skeleton-files/maven/Makefile"
 
 print_help() {
     echo "Usage: $0 "
