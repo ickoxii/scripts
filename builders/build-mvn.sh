@@ -1,4 +1,5 @@
 #!/bin/bash
+# V3
 
 group_id="edu.baylor.ecs.csi3471"
 artifact_id="Maven-Project"
@@ -9,7 +10,7 @@ main_class="Main.java"
 # template_make="~/skeleton-files/maven/Makefile"
 
 template_pom="/Users/ickoxii/skeleton-files/maven/template-pom.xml"
-template_make="/Users/ickoxii/skeleton-files/maven/Makefile"
+template_make="/Users/ickoxii/skeleton-files/maven/Makefile.template"
 
 print_help() {
     echo "Usage: $0 "
@@ -106,21 +107,27 @@ echo "cd $artifact_id"
 cd $artifact_id
 echo "-----"
 
-# Copy templates
-echo "Copying and making edits to template pom..."
+# Copy template
+echo "Copying templates"
 cp $template_pom pom.xml
-sed -i "" \
-       "s/<groupId><!--[^<]*<\/groupId>/<groupId>${group_id}<\/groupId>/g; \
-        s/<artifactId><!--[^<]*<\/artifactId>/<artifactId>${artifact_id}<\/artifactId>/g; \
-        s/<version><!--[^<]*<\/version>/<version>${version}<\/version>/g; \
-        s/<mainClass><!--[^<]*<\/mainClass>/<mainClass>${group_id}.${main_class_noext}<\/mainClass>/g" pom.xml
-# sed -e "s/<groupId><!--[^<]*<\/groupId>/<groupId>${group_id}<\/groupId>/g; \
-#         s/<artifactId><!--[^<]*<\/artifactId>/<artifactId>${artifact_id}<\/artifactId>/g; \
-#         s/<version><!--[^<]*<\/version>/<version>${version}<\/version>/g; \
-#         s/<mainClass><!--[^<]*<\/mainClass>/<mainClass>${group_id}.${main_class_noext}<\/mainClass>/g" $template_pom > pom.xml
+cp $template_make Makefile
 echo "-----"
 
+# Edit pom
+echo "Making edits to template pom..."
+sed -i "" \
+    "s/<groupId><!--[^<]*<\/groupId>/<groupId>${group_id}<\/groupId>/g; \
+    s/<artifactId><!--[^<]*<\/artifactId>/<artifactId>${artifact_id}<\/artifactId>/g; \
+    s/<version><!--[^<]*<\/version>/<version>${version}<\/version>/g; \
+    s/<mainClass><!--[^<]*<\/mainClass>/<mainClass>${group_id}.${artifact_id}.${main_class_noext}<\/mainClass>/g" pom.xml
+echo "-----"
 
+# Edit makefile
+echo "Making edits to Makefile..."
+sed -i "" \
+    "s/JAR_NAME=replace/JAR_NAME=${artifact_id}-${version}.jar/g; \
+    s/ARTIFACT_ID=replace/ARTIFACT_ID=${artifact_id}/g;" Makefile
+echo "-----"
 
 # Rename the Java files
 group_dir=$(echo "$group_id" | sed 's/\./\//g')
